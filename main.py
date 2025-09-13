@@ -15,9 +15,12 @@
 #     (20/20 points) There should be a README.md file in your project that explains what your project is, how to install the pip requirements, and how to execute the program. Please use the GitHub flavor of Markdown.
 
 import matplotlib.pyplot as plt
+import matplotlib.dates as mdates
 import numpy as np
 import yfinance as yf
 import os
+
+from matplotlib.pyplot import locator_params, tight_layout
 
 mystocks = ['MSFT', 'AAPL', 'NVDA', 'GOOG', 'TSLA']
 stockdata = []
@@ -35,15 +38,20 @@ stockdata = np.array(stockdata, dtype=float)
 
 if not os.path.exists('charts'):
     os.mkdir('charts')
+format = mdates.DateFormatter('%m-%d')
 
 index = 0
 for j in stockdata:
-    plt.xlabel('Date')
-    plt.xticks(rotation=45)
-    plt.ylabel('Closing Price')
-    plt.title(f'{names[index]} 10 Day Stock History')
-    plt.plot(closingdates,j.round(decimals=2),marker='v',linestyle='--')
-    plt.tight_layout()
-    plt.savefig(f'charts/{names[index]}.png', dpi=800)
-    plt.clf()
+    fig, ax = plt.subplots()
+    ax.set_xlabel('Date')
+    ax.set_xticks(ticks=closingdates)
+    ax.tick_params(axis='x', labelrotation=45)
+    ax.set_ylabel('Closing Price')
+    ax.set_title(f'{names[index]} 10 Day Stock History')
+    ax.plot(closingdates,j.round(decimals=2),marker='v',linestyle='--',color='r')
+    ax.xaxis.set_major_formatter(format)
+    fig.tight_layout()
+    fig.savefig(f'charts/{names[index]}.png', dpi=800)
+    fig.show()
+    fig.clf()
     index += 1
