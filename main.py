@@ -34,16 +34,17 @@ for i in mystocks:
     names.append(ticker.info['displayName'])
     stockdata.append(closingprice)
 
-#make a list of the dates themselves for plotting and convert the closing prices to a numpy array
+#make a list of the dates themselves for plotting later and convert the closing prices to a numpy array that is rounded to two decimal places
 closingdates = last10.index.tolist()
 stockdata = np.array(stockdata, dtype=float)
+stockdata.round(decimals=2)
 
 #check if a folder titled 'charts' exists in the file location. if not, make one
 if not os.path.exists('charts'):
     os.mkdir('charts')
 
 #set the format for the dates on the plot to MM-DD to reduce clutter
-format = mdates.DateFormatter('%m-%d')
+formatdate = mdates.DateFormatter('%m-%d')
 
 #plotting; create and index variable that will be used to get the correct name from the names list
 index = 0
@@ -57,10 +58,10 @@ for j in stockdata:
     ax.set_title(f'{names[index]} 10 Day Stock History')
 
     #plot the dates on the x axis and the closing prices on the y
-    ax.plot(closingdates,j.round(decimals=2),marker='v',linestyle='--',color='r')
+    ax.plot(closingdates,j,marker='v',linestyle='--',color='r')
 
     #set the date format using the above
-    ax.xaxis.set_major_formatter(format)
+    ax.xaxis.set_major_formatter(formatdate)
 
     #ensure that the axis labels remain visible
     fig.tight_layout()
