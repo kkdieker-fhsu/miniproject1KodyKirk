@@ -39,11 +39,11 @@ if not os.path.exists('charts'):
 index = 0
 for j in stockdata:
     plt.xlabel('Date')
-    plt.xticks(closingdates, rotation=45)
+    plt.xticks(rotation=45)
     plt.ylabel('Closing Price')
     plt.title(f'{names[index]} 10 Day Stock History')
-    plt.plot(closingdates,j.round(decimals=2),marker='v')
-    plt.autoscale()
+    plt.plot(closingdates,j.round(decimals=2),marker='v',linestyle='--')
+    plt.tight_layout()
     plt.savefig(f'charts/{names[index]}.png', dpi=800)
     plt.clf()
     index += 1
