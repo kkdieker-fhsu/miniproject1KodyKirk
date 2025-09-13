@@ -16,16 +16,23 @@
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pprint
 import yfinance as yf
 
 mystocks = ['MSFT', 'AAPL', 'NVDA', 'GOOG', 'TSLA']
+stockdata = []
 
 for i in mystocks:
     ticker = yf.Ticker(i)
     last10 = ticker.history(period='10d')
-    pprint.pprint(last10)
+    closing = last10['Close'].tolist()
+    stockdata.append(closing)
 
-#dat = yf.Ticker("MSFT")
-#last10 = dat.history(period='10d')
-#pprint.pprint(last10)
+dates = last10.index.tolist()
+stockdata = np.array(stockdata, dtype=float)
+
+for j in stockdata:
+    plt.xlabel('Date')
+    plt.ylabel('Closing Price')
+    plt.title('10 Day Stock History')
+    plt.plot(dates,j.round(decimals=2))
+plt.show()
