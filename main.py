@@ -17,22 +17,32 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import yfinance as yf
+import os
 
 mystocks = ['MSFT', 'AAPL', 'NVDA', 'GOOG', 'TSLA']
 stockdata = []
+names = []
 
 for i in mystocks:
     ticker = yf.Ticker(i)
     last10 = ticker.history(period='10d')
     closing = last10['Close'].tolist()
+    names.append(ticker.info['displayName'])
     stockdata.append(closing)
 
-dates = last10.index.tolist()
+closingdates = last10.index.tolist()
 stockdata = np.array(stockdata, dtype=float)
 
+if not os.path.exists('charts'):
+    os.mkdir('charts')
+
+index = 0
 for j in stockdata:
     plt.xlabel('Date')
+    plt.xticks(closingdates, rotation=45)
     plt.ylabel('Closing Price')
-    plt.title('10 Day Stock History')
-    plt.plot(dates,j.round(decimals=2))
-plt.show()
+    plt.title(f'{names[index]} 10 Day Stock History')
+    plt.plot(closingdates,j.round(decimals=2),marker='v')
+    plt.savefig(f'charts/{names[index]}.png', dpi=800)
+    plt.clf()
+    index += 1
