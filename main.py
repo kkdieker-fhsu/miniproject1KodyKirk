@@ -43,6 +43,7 @@ for j in stockdata:
     plt.ylabel('Closing Price')
     plt.title(f'{names[index]} 10 Day Stock History')
     plt.plot(closingdates,j.round(decimals=2),marker='v')
+    plt.autoscale()
     plt.savefig(f'charts/{names[index]}.png', dpi=800)
     plt.clf()
     index += 1
