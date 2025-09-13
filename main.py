@@ -26,7 +26,8 @@ mystocks = ['MSFT', 'AAPL', 'NVDA', 'GOOG', 'TSLA']
 stockdata = []
 names = []
 
-#for each stock in the above list, get its 10 day history, the closing prices on those days, the company's display name, and add all that to the empty lists
+#for each stock in the above list, get its 10 day history, the closing prices on those days, the company's display name,
+#   and add all that to the empty lists
 for i in mystocks:
     ticker = yf.Ticker(i)
     last10 = ticker.history(period='10d')
@@ -34,7 +35,8 @@ for i in mystocks:
     names.append(ticker.info['displayName'])
     stockdata.append(closingprice)
 
-#make a list of the dates themselves for plotting later and convert the closing prices to a numpy array that is rounded to two decimal places
+#make a list of the dates themselves for plotting later and convert the closing prices to a numpy array that is rounded
+#   to two decimal places
 closingdates = last10.index.tolist()
 stockdata = np.array(stockdata, dtype=float)
 stockdata.round(decimals=2)

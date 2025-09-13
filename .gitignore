@@ -25,6 +25,8 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+#Ignore the charts folder
 charts/
 
 # PyInstaller
